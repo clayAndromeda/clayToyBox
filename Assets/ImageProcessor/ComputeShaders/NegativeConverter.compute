@@ -1,0 +1,16 @@
+// ネガポジ反転を実現するComputeShader
+#pragma kernel NegativeConverter
+
+// 入力テクスチャ
+Texture2D<float4> InputTexture;
+
+// 出力テクスチャ
+RWTexture2D<float4> ResultTexture;
+
+[numthreads(8, 8, 1)]
+void NegativeConverter(uint3 id : SV_DispatchThreadID)
+{
+    float4 color = InputTexture[id.xy];
+    color.rgb = 1.0 - color.rgb;
+    ResultTexture[id.xy] = color;
+}
